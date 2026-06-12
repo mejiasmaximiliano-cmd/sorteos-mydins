@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYDINS - Promoción Educativa IA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mydins: { 
+                            blue: '#1e1c50', 
+                            green: '#009d4f', 
+                            light: '#f8fafc' 
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0fdf4; color: #1e1c50; }
+        h1, h2, h3, .font-logo { font-family: 'Playfair Display', serif; }
+        .view-section { display: none; }
+        .view-active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-stripes {
+            background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+            background-size: 1rem 1rem;
+            animation: progress-move 1s linear infinite;
+        }
+        @keyframes progress-move { from {background-position: 1rem 0;} to {background-position: 0 0;} }
+        .no-select { user-select: none; -webkit-user-select: none; }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20 bg-slate-50">
+
+    <!-- HEADER INSTITUCIONAL -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 px-4 py-3 flex justify-between items-center border-b border-gray-100">
+        
+        <!-- TRIPLE CLICK SECRET ACCESS -->
+        <div id="secret-trigger" class="flex items-center gap-3 cursor-pointer no-select">
+            <!-- Título Mydins -->
+            <div class="flex flex-col">
+                <span class="font-logo text-3xl font-bold text-mydins-blue leading-none tracking-tight">MYDINS</span>
+                <span class="text-[9px] uppercase tracking-widest text-mydins-green font-semibold">Instituto de Enseñanza</span>
+            </div>
+            <!-- Espacio para el Logo Cuadrado (Sube tu archivo "logo.png" en la misma carpeta) -->
+            <img src="logo.png" alt="Logo" class="w-10 h-10 rounded shadow-sm border border-slate-100 object-cover bg-slate-100" onerror="this.src='https://placehold.co/100x100/1e1c50/ffffff?text=M'">
+        </div>
+        
+        <button onclick="window.app && window.app.navigate('dashboard')" class="text-sm font-semibold text-mydins-blue hover:text-mydins-green transition flex items-center gap-1 bg-slate-100 px-3 py-1.5 rounded-full">
+            <i class="ph-bold ph-magnifying-glass"></i> Mis Códigos
+        </button>
+    </header>
+
+    <!-- PANTALLA DE CARGA -->
+    <div id="global-loader" class="fixed inset-0 bg-white/90 z-[100] flex flex-col items-center justify-center backdrop-blur-sm">
+        <i class="ph-bold ph-spinner-gap animate-spin text-4xl text-mydins-green mb-2"></i>
+        <p class="text-sm font-bold text-mydins-blue tracking-widest uppercase mt-2">Sincronizando Mydins...</p>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: LANDING PAGE PUBLICA -->
+    <!-- ========================================== -->
+    <main id="view-landing" class="view-section view-active max-w-md mx-auto bg-white min-h-screen shadow-xl shadow-slate-200/50">
+        
+        <div class="relative px-6 pt-10 pb-8 flex flex-col items-center text-center">
+            <div class="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold mb-6 border border-blue-200">
+                <i class="ph-bold ph-broadcast"></i> Sorteo 100% Transparente en Vivo
+            </div>
+            
+            <!-- TEXTO EDITABLE DESDE EL PANEL ADMIN (CMS) -->
+            <h1 id="dyn-hero-title" class="text-3xl font-extrabold mb-4 leading-tight text-mydins-blue">
+                Aprendé sobre Inteligencia Artificial y <span class="text-mydins-green">elegí tu premio.</span>
+            </h1>
+            
+            <!-- TEXTO EDITABLE DESDE EL PANEL ADMIN (CMS) -->
+            <p id="dyn-hero-subtitle" class="text-slate-500 text-sm mb-8 px-2 leading-relaxed">
+                Adquirí nuestra Guía de IA para Estudiantes y recibí códigos de participación de regalo para el gran sorteo.
+            </p>
+
+            <!-- OPCIONES DE PREMIO -->
+            <div class="w-full bg-slate-50 rounded-2xl border border-slate-200 p-4 mb-8">
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">Si ganás en vivo, vos elegís:</p>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-sm border border-slate-100 relative">
+                        <div class="absolute -top-2 -right-2 bg-mydins-green text-white text-[9px] font-bold px-1.5 py-0.5 rounded">NUEVO</div>
+                        <i class="ph-duotone ph-device-mobile-camera text-4xl text-mydins-blue mb-2"></i>
+                        <span class="text-[10px] font-bold text-center leading-tight">iPhone 16 Pro<br>(Sellado)</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-sm border border-slate-100">
+                        <i class="ph-duotone ph-game-controller text-4xl text-mydins-blue mb-2"></i>
+                        <span class="text-[10px] font-bold text-center leading-tight">PlayStation 5<br>(Física)</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-sm border border-slate-100">
+                        <i class="ph-duotone ph-currency-dollar text-4xl text-mydins-green mb-2"></i>
+                        <span class="text-[10px] font-bold text-center leading-tight">Efectivo<br>($1.000 USD)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PORCENTAJE EDITABLE DESDE EL PANEL ADMIN -->
+            <div class="w-full bg-white border border-mydins-blue/10 rounded-xl p-5 mb-4 shadow-md">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Meta Promocional</span>
+                    <span id="public-progress-text" class="text-mydins-blue font-bold text-lg">0%</span>
+                </div>
+                <div class="h-4 w-full bg-slate-100 rounded-full overflow-hidden mb-3 border border-slate-200">
+                    <div id="public-progress-bar" class="h-full bg-mydins-green progress-stripes rounded-full relative w-[0%] transition-all duration-1000"></div>
+                </div>
+                <p class="text-[11px] text-slate-400 text-center font-medium">Sorteo en vivo por redes sociales al completarse la barra.</p>
+            </div>
+        </div>
+
+        <div class="px-6 py-10 space-y-4 shadow-inner bg-slate-50/50" id="packs-container">
+            <h2 class="text-2xl font-bold mb-2 text-mydins-blue text-center">Elegí tu Pack Educativo</h2>
+            <p class="text-center text-sm text-slate-500 mb-6">Comprá la Guía Práctica de IA y recibí códigos de sorteo de regalo.</p>
+            <!-- Renderizado dinámico desde base de datos -->
+        </div>
+        
+        <div class="px-6 pb-12 pt-6 flex justify-center gap-8 text-slate-400 bg-white border-t border-slate-100">
+            <div class="flex flex-col items-center gap-1">
+                <i class="ph-fill ph-bank text-2xl text-slate-300"></i>
+                <span class="text-[9px] uppercase font-bold tracking-wider">Transferencia</span>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+                <i class="ph-fill ph-qr-code text-2xl text-slate-300"></i>
+                <span class="text-[9px] uppercase font-bold tracking-wider">Pago QR</span>
+            </div>
+            <div class="flex flex-col items-center gap-1">
+                <i class="ph-fill ph-shield-check text-2xl text-slate-300"></i>
+                <span class="text-[9px] uppercase font-bold tracking-wider">100% Seguro</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: CHECKOUT (DATOS BANCARIOS) -->
+    <!-- ========================================== -->
+    <main id="view-checkout" class="view-section max-w-md mx-auto bg-white min-h-screen shadow-xl shadow-slate-200/50">
+        <div class="p-4 flex items-center gap-3 mb-2 border-b border-slate-100 bg-white sticky top-0 z-10">
+            <button onclick="window.app && window.app.navigate('landing')" class="text-mydins-blue p-2 rounded-full hover:bg-slate-100 transition">
+                <i class="ph-bold ph-arrow-left text-xl"></i>
+            </button>
+            <h2 class="font-bold text-lg text-mydins-blue font-serif">Abonar Pack</h2>
+        </div>
+
+        <div class="p-6">
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6 shadow-sm flex justify-between items-center" id="checkout-summary">
+                <!-- Se llena con JS -->
+            </div>
+
+            <!-- Datos Bancarios Oficiales -->
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 mb-8">
+                <h3 class="font-bold text-mydins-blue mb-4 flex items-center gap-2">
+                    <i class="ph-fill ph-bank text-xl"></i> Datos para transferir
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center bg-white p-3 rounded-lg border border-blue-50">
+                        <div>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">Alias</p>
+                            <p id="dyn-alias" class="font-mono font-bold text-mydins-blue tracking-wider">MYDINS.ESTUDIO</p>
+                        </div>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('dyn-alias').innerText); alert('Alias copiado!')" class="text-blue-500 bg-blue-50 p-2 rounded hover:bg-blue-100 transition">
+                            <i class="ph-bold ph-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="checkout-form" onsubmit="window.app && window.app.submitOrder(event)" class="space-y-4 mb-8">
+                <h3 class="font-bold text-mydins-blue mb-2 text-sm uppercase tracking-wider border-b border-slate-100 pb-2">Tus Datos para el Sorteo</h3>
+                
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1 ml-1">Nombre Completo</label>
+                    <input type="text" id="input-name" required placeholder="Tal como figura en el DNI" class="w-full bg-white border-2 border-slate-200 rounded-xl p-3.5 text-mydins-blue font-medium focus:outline-none focus:border-mydins-green transition placeholder:text-slate-300">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1 ml-1">DNI (Para validar en vivo)</label>
+                    <input type="number" id="input-dni" required placeholder="Sin puntos ni espacios" class="w-full bg-white border-2 border-slate-200 rounded-xl p-3.5 text-mydins-blue font-medium focus:outline-none focus:border-mydins-green transition placeholder:text-slate-300">
+                </div>
+
+                <!-- SELECTOR DE ASESORES PARA WHATSAPP -->
+                <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
+                    <label class="block text-xs font-bold text-mydins-green mb-2 ml-1 uppercase tracking-wider"><i class="ph-bold ph-whatsapp-logo"></i> Enviar comprobante a:</label>
+                    <select id="input-asesor" required class="w-full bg-white border-2 border-slate-200 rounded-lg p-3 text-mydins-blue font-bold focus:outline-none focus:border-mydins-green transition appearance-none">
+                        <option value="mydins">Administración Central MYDINS</option>
+                        <option value="maxy">Asesor Maxy</option>
+                        <option value="day">Asesora Day</option>
+                    </select>
+                </div>
+                
+                <p class="text-[11px] text-slate-400 px-1 mt-2 leading-relaxed text-center">
+                    Al presionar el botón se abrirá WhatsApp con el asesor elegido para que envíes la foto de la transferencia.
+                </p>
+
+                <button type="submit" class="w-full bg-[#25D366] hover:bg-green-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition shadow-lg shadow-green-600/30 mt-2">
+                    <i class="ph-bold ph-whatsapp-logo text-2xl"></i> Notificar Pago
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: DASHBOARD (BUSCAR MIS CÓDIGOS) -->
+    <!-- ========================================== -->
+    <main id="view-dashboard" class="view-section max-w-md mx-auto bg-slate-50 min-h-screen shadow-xl shadow-slate-200/50">
+        <div class="p-4 flex items-center gap-3 mb-2 border-b border-slate-200 bg-white sticky top-0 z-10">
+            <button onclick="window.app && window.app.navigate('landing')" class="text-mydins-blue p-2 rounded-full hover:bg-slate-100 transition">
+                <i class="ph-bold ph-house text-xl"></i>
+            </button>
+            <h2 class="font-bold text-lg text-mydins-blue font-serif">Mis Códigos</h2>
+        </div>
+        <div class="p-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 shadow-sm">
+                <p class="text-sm text-slate-500 mb-4 leading-relaxed">Ingresá tu número de DNI para descargar la Guía de Inteligencia Artificial y visualizar tus códigos oficiales asignados para el sorteo.</p>
+                <div class="flex gap-2">
+                    <input type="number" id="search-dni" placeholder="Ej: 38123456" class="flex-1 bg-slate-50 border-2 border-slate-200 rounded-lg p-3 text-mydins-blue font-bold focus:outline-none focus:border-mydins-blue">
+                    <button onclick="window.app && window.app.searchByDni()" class="bg-mydins-blue hover:bg-blue-900 text-white px-5 rounded-lg font-bold transition">Buscar</button>
+                </div>
+            </div>
+            <div id="user-results" class="hidden space-y-4"></div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: ADMIN PANEL SECRETO CON CMS -->
+    <!-- ========================================== -->
+    <main id="view-admin" class="view-section max-w-2xl mx-auto bg-slate-900 min-h-screen text-slate-200 pb-20 shadow-2xl">
+        <header class="bg-slate-950 p-4 border-b border-slate-800 flex justify-between items-center sticky top-0 z-10">
+            <h2 class="font-bold text-xl text-white flex items-center gap-2"><i class="ph-fill ph-lock-key text-mydins-green animate-pulse"></i> Panel Administrativo</h2>
+            <button onclick="window.app && window.app.logoutAdmin()" class="text-xs bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white px-3 py-1.5 rounded-full transition border border-red-500/30">Cerrar Sesión</button>
+        </header>
+
+        <!-- Pestañas Administrativas -->
+        <div class="flex border-b border-slate-800 bg-slate-900 sticky top-[61px] z-10">
+            <button onclick="window.app && window.app.switchAdminTab('ventas')" id="tab-btn-ventas" class="flex-1 py-3 text-sm font-bold text-mydins-green border-b-2 border-mydins-green transition">Control de Ventas</button>
+            <button onclick="window.app && window.app.switchAdminTab('web')" id="tab-btn-web" class="flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-300 transition">Editar Web (CMS)</button>
+        </div>
+
+        <div class="p-4">
+            
+            <!-- TABS DE VENTAS -->
+            <div id="admin-tab-ventas" class="block">
+                <!-- Formulario de Registro Manual Directo -->
+                <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/80 mb-6 shadow-lg">
+                    <h3 class="font-bold text-white mb-2 text-sm flex items-center gap-2"><i class="ph-bold ph-user-plus text-mydins-green text-lg"></i> Cargar Pago y Registrar Códigos</h3>
+                    <p class="text-xs text-slate-400 mb-4">Utilizá esta sección cuando verifiques la transferencia en tu cuenta bancaria para aprobar el pedido y generarle los códigos al alumno.</p>
+                    <form id="admin-manual-form" onsubmit="window.app && window.app.adminManualEntry(event)" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="admin-name" required placeholder="Nombre Completo" class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-sm text-white focus:outline-none focus:border-mydins-green">
+                            <input type="number" id="admin-dni" required placeholder="DNI del Alumno" class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-sm text-white focus:outline-none focus:border-mydins-green">
+                        </div>
+                        <select id="admin-pack" required class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-sm text-white focus:outline-none focus:border-mydins-green" onfocus="window.app && window.app.fillAdminPackSelect()">
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                        <button type="submit" class="w-full bg-mydins-green text-white font-bold py-3 rounded text-sm hover:bg-green-600 transition shadow-md shadow-green-900/20">Generar Códigos de Sorteo</button>
+                    </form>
+                </div>
+
+                <!-- Estadisticas en Tiempo Real -->
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                        <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Caja Total Aprobada</p>
+                        <p id="admin-total-money" class="text-2xl font-bold text-emerald-400">$0</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+                        <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Códigos Totales Generados</p>
+                        <p id="admin-total-codes" class="text-2xl font-bold text-blue-400">0</p>
+                    </div>
+                </div>
+
+                <!-- Solicitudes de Registro (Por verificar) -->
+                <h3 class="font-bold text-white mb-4 border-b border-slate-800 pb-2 flex justify-between items-center">
+                    <span>Solicitudes Web de Alumnos</span>
+                    <span id="admin-pending-count" class="bg-orange-500/10 text-orange-400 text-xs px-2.5 py-1 rounded-full font-bold border border-orange-500/20">0</span>
+                </h3>
+                <div id="admin-pending-list" class="space-y-3 mb-8"></div>
+
+                <h3 class="font-bold text-white mb-4 border-b border-slate-800 pb-2">Base de Datos de Códigos Activos</h3>
+                <div id="admin-approved-list" class="space-y-3 opacity-90"></div>
+            </div>
+
+            <!-- TABS DE EDITAR WEB (CMS) -->
+            <div id="admin-tab-web" class="hidden">
+                <div class="bg-slate-800 p-5 rounded-xl border border-blue-500/30 mb-6 shadow-lg">
+                    <h3 class="font-bold text-white mb-1"><i class="ph-fill ph-pencil-simple text-blue-400"></i> Gestor de Contenido (CMS)</h3>
+                    <p class="text-xs text-slate-400 mb-6">Modificá los textos de la página de inicio, controla la barra de progreso de forma manual y cambia los precios o cantidad de códigos de regalo.</p>
+                    
+                    <form onsubmit="window.app && window.app.saveWebConfig(event)" class="space-y-5">
+                        
+                        <!-- Progreso Meta -->
+                        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg">
+                            <label class="block text-[10px] uppercase font-bold text-mydins-green tracking-wider mb-1">Porcentaje Visual de la Barra (%)</label>
+                            <input type="number" id="cms-progress" required min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white focus:outline-none focus:border-mydins-green" placeholder="Ej: 74">
+                        </div>
+
+                        <!-- Textos Hero -->
+                        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg space-y-3">
+                            <label class="block text-[10px] uppercase font-bold text-blue-400 tracking-wider mb-1">Textos Cabecera (Hero)</label>
+                            <input type="text" id="cms-title" required class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white focus:outline-none focus:border-blue-400" placeholder="Título Principal">
+                            <textarea id="cms-subtitle" required class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white h-20 focus:outline-none focus:border-blue-400" placeholder="Subtítulo Principal"></textarea>
+                        </div>
+
+                        <!-- Configuración de Precios y Packs -->
+                        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg space-y-3">
+                            <label class="block text-[10px] uppercase font-bold text-orange-400 tracking-wider mb-1">Estructura de los Packs y Regalos</label>
+                            
+                            <div class="flex gap-2 items-center">
+                                <span class="w-20 text-xs text-slate-400">Pack 1:</span>
+                                <input type="text" id="cms-p1-name" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Nombre">
+                                <input type="number" id="cms-p1-price" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Precio ($)">
+                                <input type="number" id="cms-p1-chances" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Códigos">
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <span class="w-20 text-xs text-slate-400">Pack 2:</span>
+                                <input type="text" id="cms-p2-name" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Nombre">
+                                <input type="number" id="cms-p2-price" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Precio ($)">
+                                <input type="number" id="cms-p2-chances" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Códigos">
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <span class="w-20 text-xs text-slate-400">Pack 3:</span>
+                                <input type="text" id="cms-p3-name" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Nombre">
+                                <input type="number" id="cms-p3-price" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Precio ($)">
+                                <input type="number" id="cms-p3-chances" required class="w-1/3 bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Códigos">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 transition">
+                            <i class="ph-bold ph-floppy-disk text-lg"></i> Guardar Cambios en Vivo
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- LÓGICA DE BACKEND (JS + GOOGLE FIREBASE) -->
+    <!-- ========================================== -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, collection, onSnapshot, addDoc, updateDoc, doc, setDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
+        // ⚠️ TU CONFIGURACIÓN DE FIREBASE EXACTA E INTEGRADA ⚠️
+        const firebaseConfig = {
+            apiKey: "AIzaSyANGUyAOAxYBgFd4pYCeUX3_QQRi47kJdY",
+            authDomain: "sorteos-mydins.firebaseapp.com",
+            projectId: "sorteos-mydins",
+            storageBucket: "sorteos-mydins.firebasestorage.app",
+            messagingSenderId: "581453816819",
+            appId: "1:581453816819:web:634a38242991d0d9d1a886"
+        };
+        
+        // Identificador de la base de datos
+        const appId = 'sorteos-mydins';
+
+        let firebaseApp, auth, db;
+        try {
+            firebaseApp = initializeApp(firebaseConfig);
+            auth = getAuth(firebaseApp);
+            db = getFirestore(firebaseApp);
+        } catch(e) {
+            console.error("No se pudo conectar a Firebase:", e);
+            alert("Atención: Hubo un problema conectando a la base de datos.");
+        }
+
+        // --- LOS 3 NÚMEROS DE WHATSAPP ---
+        // (Configurados con el 549 para Argentina)
+        const WHATSAPP_NUMBERS = {
+            "mydins": "5493875984002",
+            "maxy":   "5493873602174",
+            "day":    "5493873641848"
+        };
+
+        const LINK_PDF_IA = "https://docs.google.com/document/d/1XTuEj_ejemplo_reemplazar_por_tu_link/edit"; 
+
+        window.app = {
+            state: {
+                selectedPack: null,
+                orders: [], 
+                isAdmin: false,
+                user: null, 
+                config: { 
+                    heroTitle: "Aprendé sobre Inteligencia Artificial y <span class='text-mydins-green'>elegí tu premio.</span>",
+                    heroSubtitle: "Adquirí nuestra Guía de IA para Estudiantes y recibí códigos de participación de regalo para el gran sorteo.",
+                    progressPercent: 10,
+                    packs: [
+                        { id: 'pack_1', qty: 1, chances: 1, price: 4500, title: 'Básico', popular: false },
+                        { id: 'pack_2', qty: 3, chances: 5, price: 12500, title: 'Familiar', popular: true, tag: 'Recomendado' },
+                        { id: 'pack_3', qty: 5, chances: 10, price: 20000, title: 'Avanzado', popular: false, tag: '10 Códigos' }
+                    ]
+                }
+            },
+
+            clickCount: 0,
+            lastClickTime: 0,
+
+            async init() {
+                this.setupSecretTrigger();
+                
+                if(!auth) {
+                    this.applyConfigToWeb();
+                    return;
+                }
+
+                this.showLoader(true);
+                
+                try {
+                    // Inicializar la autenticación anónima para leer/escribir base de datos
+                    await signInAnonymously(auth);
+
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            this.state.user = user;
+                            this.listenToConfig(); 
+                            this.listenToOrders(); 
+                        } else {
+                            this.showLoader(false);
+                        }
+                    });
+                } catch (error) {
+                    console.error("Fallo de Autenticación:", error);
+                    this.applyConfigToWeb();
+                    this.showLoader(false);
+                }
+            },
+
+            // --- LÓGICA DEL TRIPLE CLIC PARA EL ADMIN ---
+            setupSecretTrigger() {
+                const trigger = document.getElementById('secret-trigger');
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    const now = Date.now();
+                    
+                    if (now - this.lastClickTime > 800) {
+                        this.clickCount = 0;
+                    }
+                    
+                    this.lastClickTime = now;
+                    this.clickCount++;
+                    
+                    if (this.clickCount === 3) {
+                        this.clickCount = 0; 
+                        this.requireAdmin();
+                    } else if (this.clickCount === 1) {
+                        setTimeout(() => {
+                            if (this.clickCount === 1) {
+                                this.navigate('landing');
+                                this.clickCount = 0;
+                            }
+                        }, 300);
+                    }
+                });
+            },
+
+            requireAdmin() {
+                if(navigator.vibrate) navigator.vibrate([50, 50, 50]); 
+                const pass = prompt("Acceso Especial MYDINS. Introduzca la clave de administrador:");
+                if (pass === "mydins2026") {
+                    this.state.isAdmin = true;
+                    this.navigate('admin');
+                } else if (pass !== null) {
+                    alert("Clave incorrecta.");
+                }
+            },
+
+            logoutAdmin() {
+                this.state.isAdmin = false;
+                this.navigate('landing');
+            },
+
+            // ---------------- NAVEGACIÓN ----------------
+            navigate(viewId) {
+                if (viewId === 'landing' && this.state.isAdmin && document.getElementById('view-admin').classList.contains('view-active')) return;
+                
+                document.querySelectorAll('.view-section').forEach(el => el.classList.remove('view-active'));
+                document.getElementById(`view-${viewId}`).classList.add('view-active');
+                window.scrollTo(0, 0);
+                
+                if (viewId === 'admin') this.renderAdmin();
+            },
+
+            switchAdminTab(tab) {
+                if(tab === 'ventas') {
+                    document.getElementById('admin-tab-ventas').classList.remove('hidden');
+                    document.getElementById('admin-tab-web').classList.add('hidden');
+                    document.getElementById('tab-btn-ventas').classList.add('text-mydins-green', 'border-b-2', 'border-mydins-green');
+                    document.getElementById('tab-btn-ventas').classList.remove('text-slate-500');
+                    document.getElementById('tab-btn-web').classList.remove('text-mydins-green', 'border-b-2', 'border-mydins-green');
+                    document.getElementById('tab-btn-web').classList.add('text-slate-500');
+                } else {
+                    document.getElementById('admin-tab-ventas').classList.add('hidden');
+                    document.getElementById('admin-tab-web').classList.remove('hidden');
+                    document.getElementById('tab-btn-web').classList.add('text-mydins-green', 'border-b-2', 'border-mydins-green');
+                    document.getElementById('tab-btn-web').classList.remove('text-slate-500');
+                    document.getElementById('tab-btn-ventas').classList.remove('text-mydins-green', 'border-b-2', 'border-mydins-green');
+                    document.getElementById('tab-btn-ventas').classList.add('text-slate-500');
+                    this.fillCMSForm(); 
+                }
+            },
+
+            showLoader(show) {
+                document.getElementById('global-loader').style.display = show ? 'flex' : 'none';
+            },
+
+            // ---------------- GESTIÓN CMS (BASE DE DATOS CONFIG) ----------------
+            listenToConfig() {
+                if (!this.state.user || !db) return;
+                const configRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'main_config');
+                
+                onSnapshot(configRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        this.state.config = docSnap.data();
+                    }
+                    this.applyConfigToWeb();
+                }, (error) => {
+                    console.error("Error al recuperar CMS:", error);
+                    this.applyConfigToWeb();
+                });
+            },
+
+            applyConfigToWeb() {
+                const c = this.state.config;
+                
+                document.getElementById('dyn-hero-title').innerHTML = c.heroTitle;
+                document.getElementById('dyn-hero-subtitle').innerHTML = c.heroSubtitle;
+                
+                document.getElementById('public-progress-text').innerText = `${c.progressPercent}%`;
+                document.getElementById('public-progress-bar').style.width = `${c.progressPercent}%`;
+
+                this.renderPacks();
+                this.showLoader(false);
+            },
+
+            fillCMSForm() {
+                const c = this.state.config;
+                document.getElementById('cms-progress').value = c.progressPercent;
+                document.getElementById('cms-title').value = c.heroTitle.replace(/<[^>]*>?/gm, ''); 
+                document.getElementById('cms-subtitle').value = c.heroSubtitle;
+                
+                document.getElementById('cms-p1-name').value = c.packs[0].title;
+                document.getElementById('cms-p1-price').value = c.packs[0].price;
+                document.getElementById('cms-p1-chances').value = c.packs[0].chances;
+                
+                document.getElementById('cms-p2-name').value = c.packs[1].title;
+                document.getElementById('cms-p2-price').value = c.packs[1].price;
+                document.getElementById('cms-p2-chances').value = c.packs[1].chances;
+                
+                document.getElementById('cms-p3-name').value = c.packs[2].title;
+                document.getElementById('cms-p3-price').value = c.packs[2].price;
+                document.getElementById('cms-p3-chances').value = c.packs[2].chances;
+            },
+
+            async saveWebConfig(event) {
+                event.preventDefault();
+                if (!this.state.user || !db) return;
+                this.showLoader(true);
+                
+                const newTitle = document.getElementById('cms-title').value;
+                const styledTitle = newTitle.replace('elegí tu premio', "<span class='text-mydins-green'>elegí tu premio.</span>");
+
+                const newConfig = {
+                    heroTitle: styledTitle,
+                    heroSubtitle: document.getElementById('cms-subtitle').value,
+                    progressPercent: parseInt(document.getElementById('cms-progress').value),
+                    packs: [
+                        { ...this.state.config.packs[0], title: document.getElementById('cms-p1-name').value, price: parseInt(document.getElementById('cms-p1-price').value), chances: parseInt(document.getElementById('cms-p1-chances').value) },
+                        { ...this.state.config.packs[1], title: document.getElementById('cms-p2-name').value, price: parseInt(document.getElementById('cms-p2-price').value), chances: parseInt(document.getElementById('cms-p2-chances').value) },
+                        { ...this.state.config.packs[2], title: document.getElementById('cms-p3-name').value, price: parseInt(document.getElementById('cms-p3-price').value), chances: parseInt(document.getElementById('cms-p3-chances').value) }
+                    ]
+                };
+
+                try {
+                    const configRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'main_config');
+                    await setDoc(configRef, newConfig);
+                    alert("¡Página web actualizada correctamente!");
+                } catch(e) {
+                    console.error("Error al actualizar la base de datos:", e);
+                    alert("Hubo un error al guardar los cambios en el servidor.");
+                }
+                this.showLoader(false);
+            },
+
+            // ---------------- ÓRDENES Y SELECCIÓN DE PAQUETES ----------------
+            listenToOrders() {
+                if (!this.state.user || !db) return;
+                const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+                
+                onSnapshot(ordersRef, (snapshot) => {
+                    const allOrders = [];
+                    snapshot.forEach(doc => allOrders.push({ id: doc.id, ...doc.data() }));
+                    this.state.orders = allOrders;
+                    
+                    if(document.getElementById('view-admin').classList.contains('view-active')) {
+                        this.renderAdmin();
+                    }
+                }, (error) => {
+                    console.error("Error en flujo de transacciones:", error);
+                });
+            },
+
+            renderPacks() {
+                const container = document.getElementById('packs-container');
+                container.innerHTML = '';
+                this.state.config.packs.forEach(pack => {
+                    const isPopular = pack.popular;
+                    const bgClass = isPopular ? 'bg-mydins-blue text-white shadow-xl transform scale-105 my-6 border border-blue-800' : 'bg-white text-mydins-blue border border-slate-200';
+                    const tagHtml = pack.tag ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-mydins-green text-white text-[10px] uppercase font-bold px-4 py-1 rounded-full shadow-md whitespace-nowrap">${pack.tag}</div>` : '';
+
+                    container.innerHTML += `
+                        <div onclick="window.app.selectPack('${pack.id}')" class="relative p-6 rounded-2xl cursor-pointer transition hover:-translate-y-1 ${bgClass}">
+                            ${tagHtml}
+                            <div class="flex flex-col items-center text-center">
+                                <h3 class="font-serif font-bold text-xl">Pack ${pack.title}</h3>
+                                <p class="text-xs font-medium mt-1 opacity-80">Guía IA + ${pack.chances} Códigos</p>
+                                <div class="my-4 text-3xl font-extrabold">$${pack.price.toLocaleString('es-AR')}</div>
+                                <button class="w-full bg-black/10 dark:bg-white/20 rounded-lg p-3 font-bold text-sm transition flex items-center justify-center gap-2">
+                                    <i class="ph-bold ph-ticket"></i> Elegir Pack
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            },
+
+            selectPack(packId) {
+                this.state.selectedPack = this.state.config.packs.find(p => p.id === packId);
+                const p = this.state.selectedPack;
+                
+                document.getElementById('checkout-summary').innerHTML = `
+                    <div><p class="text-xs text-slate-500 uppercase font-bold">A Pagar (Pack ${p.title}):</p><p class="text-2xl font-bold text-mydins-blue">$${p.price.toLocaleString('es-AR')}</p></div>
+                    <div class="text-right"><p class="text-mydins-green font-bold text-lg">+${p.chances}</p><p class="text-xs text-slate-500">Códigos</p></div>
+                `;
+                this.navigate('checkout');
+            },
+
+            async submitOrder(event) {
+                event.preventDefault();
+                const inputName = document.getElementById('input-name').value.trim();
+                const inputDni = document.getElementById('input-dni').value.trim();
+                const selectedAsesor = document.getElementById('input-asesor').value; // Toma el valor del select
+                const p = this.state.selectedPack;
+
+                if (this.state.user && db) {
+                    this.showLoader(true);
+                    
+                    const newOrder = {
+                        name: inputName,
+                        dni: inputDni,
+                        packId: p.id,
+                        amount: p.price,
+                        chances: p.chances,
+                        status: 'pending', 
+                        tokens: [],
+                        date: new Date().toISOString()
+                    };
+
+                    try {
+                        const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+                        await addDoc(ordersRef, newOrder);
+                    } catch (e) {
+                        console.error("Error al registrar transacción:", e);
+                    }
+                    this.showLoader(false);
+                }
+
+                // Obtener el número de celular del asesor seleccionado
+                const celNumber = WHATSAPP_NUMBERS[selectedAsesor];
+
+                // Limpieza y navegación
+                this.navigate('dashboard');
+                document.getElementById('search-dni').value = inputDni;
+                this.searchByDni();
+
+                // Formateo del mensaje oficial a WhatsApp
+                const text = `Hola! 🙌\nAcabo de realizar la transferencia por mi Pack Mydins.\n\n*Nombre:* ${inputName}\n*DNI:* ${inputDni}\n*Pack:* ${p.title} ($${p.price.toLocaleString()})\n\nAdjunto mi comprobante bancario para que puedan validar los códigos de sorteo:`;
+                
+                // Abre el WhatsApp correcto
+                window.open(`https://wa.me/${celNumber}?text=${encodeURIComponent(text)}`, '_blank');
+            },
+
+            // ---------------- BÚSQUEDA DEL CLIENTE ----------------
+            searchByDni() {
+                const dni = document.getElementById('search-dni').value.trim();
+                const resultsDiv = document.getElementById('user-results');
+                resultsDiv.classList.remove('hidden');
+                
+                const userOrders = this.state.orders.filter(o => o.dni === dni);
+                
+                if(userOrders.length === 0) {
+                    resultsDiv.innerHTML = `
+                        <div class="p-5 bg-red-50 border border-red-200 text-red-700 rounded-xl text-center shadow-sm">
+                            <p class="font-bold mb-1">DNI no registrado o pendiente de revisión</p>
+                            <p class="text-xs">Si transferiste recién, envianos el comprobante por WhatsApp. Nuestro equipo validará el pago en minutos.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                resultsDiv.innerHTML = '';
+                userOrders.forEach(order => {
+                    if (order.status === 'pending') {
+                        resultsDiv.innerHTML += `
+                            <div class="bg-orange-50 border border-orange-200 rounded-xl p-5 shadow-sm">
+                                <div class="flex items-center gap-2 text-orange-600 font-bold mb-2">
+                                    <i class="ph-fill ph-clock text-xl"></i> Registro Pendiente
+                                </div>
+                                <p class="text-sm text-slate-600">Recibimos tus datos para el <strong>Pack de $${order.amount.toLocaleString()}</strong>. El equipo está verificando la acreditación para liberar tus accesos y códigos.</p>
+                            </div>
+                        `;
+                    } else if (order.status === 'approved') {
+                        let tHtml = order.tokens.map(t => `<div class="bg-mydins-blue text-white font-mono text-center tracking-widest text-[14px] font-bold p-2.5 rounded shadow-inner border border-blue-800">${t}</div>`).join('');
+                        resultsDiv.innerHTML += `
+                            <div class="bg-green-50 border border-green-200 rounded-xl p-5 shadow-sm">
+                                <div class="flex items-center gap-2 text-mydins-green font-bold mb-4">
+                                    <i class="ph-fill ph-check-circle text-xl"></i> ¡Inscripción Aprobada!
+                                </div>
+                                <a href="${LINK_PDF_IA}" target="_blank" class="w-full mb-4 flex justify-between items-center bg-white border border-green-200 p-3 rounded-xl text-sm font-bold text-mydins-blue hover:border-mydins-green transition">
+                                    <span class="flex items-center gap-2"><i class="ph-fill ph-file-pdf text-red-500 text-lg"></i> Descargar Guía de IA</span>
+                                    <i class="ph-bold ph-download-simple"></i>
+                                </a>
+                                <p class="text-xs uppercase font-bold text-slate-500 tracking-wider mb-2">Códigos Oficiales Registrados:</p>
+                                <div class="grid grid-cols-2 gap-2 mb-3">${tHtml}</div>
+                                <p class="text-[10px] text-slate-400 text-center">Tus códigos están activos en la base oficial del sorteo.</p>
+                            </div>
+                        `;
+                    }
+                });
+            },
+
+            // ---------------- BACK-END SECCIÓN: ADMIN CONTROL ----------------
+            fillAdminPackSelect() {
+                const select = document.getElementById('admin-pack');
+                select.innerHTML = '<option value="">Elegí un pack...</option>';
+                this.state.config.packs.forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.title} ($${p.price.toLocaleString()}) - ${p.chances} Cód.</option>`;
+                });
+            },
+
+            async adminManualEntry(e) {
+                e.preventDefault();
+                if (!this.state.user || !db) return alert("Firebase fuera de línea.");
+                this.showLoader(true);
+                
+                const pack = this.state.config.packs.find(p => p.id === document.getElementById('admin-pack').value);
+                const tokens = [];
+                for(let i=0; i<pack.chances; i++) {
+                    const randomVal = Math.random().toString(36).substring(2, 4).toUpperCase();
+                    const hashVal = Date.now().toString(36).slice(-3).toUpperCase();
+                    tokens.push(`MYD-${hashVal}${randomVal}`);
+                }
+                
+                try {
+                    const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
+                    await addDoc(ordersRef, {
+                        name: document.getElementById('admin-name').value, 
+                        dni: document.getElementById('admin-dni').value,
+                        packId: pack.id, 
+                        amount: pack.price, 
+                        chances: pack.chances, 
+                        tokens: tokens, 
+                        status: 'approved', 
+                        date: new Date().toISOString()
+                    });
+                    document.getElementById('admin-manual-form').reset();
+                    alert("Acreditación exitosa. Códigos de sorteo generados.");
+                } catch (err) {
+                    console.error("Fallo al insertar en base de datos:", err);
+                    alert("Error en el guardado de datos.");
+                }
+                this.showLoader(false);
+            },
+
+            renderAdmin() {
+                if (!this.state.isAdmin) return;
+                
+                const pendingOrders = this.state.orders.filter(o => o.status === 'pending');
+                const approvedOrders = this.state.orders.filter(o => o.status === 'approved');
+                
+                document.getElementById('admin-pending-count').innerText = pendingOrders.length;
+                document.getElementById('admin-total-money').innerText = `$${approvedOrders.reduce((s, o) => s + (o.amount||0), 0).toLocaleString()}`;
+                document.getElementById('admin-total-codes').innerText = approvedOrders.reduce((s, o) => s + (o.chances||0), 0);
+
+                const pList = document.getElementById('admin-pending-list');
+                pList.innerHTML = pendingOrders.length ? '' : '<p class="text-sm text-slate-500 italic p-2 bg-slate-800 rounded text-center">No hay solicitudes web pendientes.</p>';
+                pendingOrders.forEach(o => {
+                    pList.innerHTML += `
+                        <div class="bg-slate-800 border-l-4 border-orange-500 p-4 rounded-r-lg flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-white text-sm">${o.name}</p>
+                                <p class="text-xs text-slate-400">DNI: ${o.dni}</p>
+                                <p class="text-emerald-400 font-bold mt-1">$${o.amount.toLocaleString()} <span class="text-[10px] text-slate-500 font-normal">(${o.chances} cód)</span></p>
+                            </div>
+                            <button onclick="window.app.approveOrder('${o.id}', ${o.chances})" class="bg-emerald-500 hover:bg-emerald-600 transition text-white font-bold py-2 px-3 rounded text-xs">Validar</button>
+                        </div>
+                    `;
+                });
+
+                const aList = document.getElementById('admin-approved-list');
+                aList.innerHTML = '';
+                
+                const sortedApproved = [...approvedOrders].sort((a,b) => new Date(b.date) - new Date(a.date));
+                
+                sortedApproved.slice(0, 15).forEach(o => { 
+                    aList.innerHTML += `
+                        <div class="bg-slate-800/50 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs">
+                            <div>
+                                <p class="font-bold text-slate-300">${o.name}</p>
+                                <p class="text-slate-500">DNI: ${o.dni}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-emerald-500 font-bold">$${o.amount.toLocaleString()}</p>
+                                <p class="text-[10px] text-slate-500 bg-slate-900 px-2 py-0.5 rounded inline-block mt-1">${o.chances} cód.</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            },
+
+            async approveOrder(orderId, chances) {
+                if(!confirm("¿Confirmás que se acreditó la transferencia en tu cuenta bancaria?")) return;
+                if (!this.state.user || !db) return;
+                this.showLoader(true);
+                
+                try {
+                    const tokens = [];
+                    for(let i=0; i<chances; i++) {
+                        const randomVal = Math.random().toString(36).substring(2, 4).toUpperCase();
+                        const hashVal = Date.now().toString(36).slice(-3).toUpperCase();
+                        tokens.push(`MYD-${hashVal}${randomVal}`);
+                    }
+                    const orderRef = doc(db, 'artifacts', appId, 'public', 'data', 'orders', orderId);
+                    await updateDoc(orderRef, { status: 'approved', tokens: tokens });
+                } catch(e) {
+                    console.error("Fallo al actualizar estado:", e);
+                    alert("Fallo interno en la actualización.");
+                }
+                this.showLoader(false);
+            }
+        };
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', () => window.app.init());
+    </script>
+</body>
+</html>
