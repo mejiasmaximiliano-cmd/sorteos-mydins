@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MYDINS - Promoción Educativa IA</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,11 +15,7 @@
             theme: {
                 extend: {
                     colors: {
-                        mydins: { 
-                            blue: '#1e1c50', 
-                            green: '#009d4f', 
-                            light: '#f8fafc' 
-                        },
+                        mydins: { blue: '#1e1c50', green: '#009d4f', light: '#f8fafc' },
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -56,8 +55,8 @@
                 <span class="font-logo text-3xl font-bold text-mydins-blue leading-none tracking-tight">MYDINS</span>
                 <span class="text-[9px] uppercase tracking-widest text-mydins-green font-semibold">Instituto de Enseñanza</span>
             </div>
-            <!-- Espacio para el Logo Cuadrado (Sube tu archivo "logo.png" en la misma carpeta) -->
-            <img src="logo.png" alt="Logo" class="w-10 h-10 rounded shadow-sm border border-slate-100 object-cover bg-slate-100" onerror="this.src='https://placehold.co/100x100/1e1c50/ffffff?text=M'">
+            <!-- LOGO CORREGIDO: object-contain para no achatarlo, ancho automático -->
+            <img src="logo.png" alt="Logo Mydins" class="h-10 w-auto min-w-[3rem] max-w-[5rem] rounded shadow-sm border border-slate-100 object-contain bg-slate-100 px-1" onerror="this.src='https://placehold.co/100x40/1e1c50/ffffff?text=MYD'">
         </div>
         
         <button onclick="window.app && window.app.navigate('dashboard')" class="text-sm font-semibold text-mydins-blue hover:text-mydins-green transition flex items-center gap-1 bg-slate-100 px-3 py-1.5 rounded-full">
@@ -65,8 +64,7 @@
         </button>
     </header>
 
-    <!-- PANTALLA DE CARGA -->
-    <div id="global-loader" class="fixed inset-0 bg-white/90 z-[100] flex flex-col items-center justify-center backdrop-blur-sm">
+    <div id="global-loader" class="fixed inset-0 bg-white/90 z-[100] flex flex-col items-center justify-center hidden backdrop-blur-sm">
         <i class="ph-bold ph-spinner-gap animate-spin text-4xl text-mydins-green mb-2"></i>
         <p class="text-sm font-bold text-mydins-blue tracking-widest uppercase mt-2">Sincronizando Mydins...</p>
     </div>
@@ -81,37 +79,34 @@
                 <i class="ph-bold ph-broadcast"></i> Sorteo 100% Transparente en Vivo
             </div>
             
-            <!-- TEXTO EDITABLE DESDE EL PANEL ADMIN (CMS) -->
             <h1 id="dyn-hero-title" class="text-3xl font-extrabold mb-4 leading-tight text-mydins-blue">
                 Aprendé sobre Inteligencia Artificial y <span class="text-mydins-green">elegí tu premio.</span>
             </h1>
             
-            <!-- TEXTO EDITABLE DESDE EL PANEL ADMIN (CMS) -->
             <p id="dyn-hero-subtitle" class="text-slate-500 text-sm mb-8 px-2 leading-relaxed">
                 Adquirí nuestra Guía de IA para Estudiantes y recibí códigos de participación de regalo para el gran sorteo.
             </p>
 
-            <!-- OPCIONES DE PREMIO -->
+            <!-- OPCIONES DE PREMIO DINÁMICAS -->
             <div class="w-full bg-slate-50 rounded-2xl border border-slate-200 p-4 mb-8">
                 <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">Si ganás en vivo, vos elegís:</p>
                 <div class="grid grid-cols-3 gap-2">
                     <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-sm border border-slate-100 relative">
                         <div class="absolute -top-2 -right-2 bg-mydins-green text-white text-[9px] font-bold px-1.5 py-0.5 rounded">NUEVO</div>
                         <i class="ph-duotone ph-device-mobile-camera text-4xl text-mydins-blue mb-2"></i>
-                        <span class="text-[10px] font-bold text-center leading-tight">iPhone 16 Pro<br>(Sellado)</span>
+                        <span class="text-[10px] font-bold text-center leading-tight"><span id="dyn-p1-name">iPhone 16 Pro</span><br><span id="dyn-p1-desc" class="text-slate-400 font-medium">(Sellado)</span></span>
                     </div>
                     <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-sm border border-slate-100">
                         <i class="ph-duotone ph-game-controller text-4xl text-mydins-blue mb-2"></i>
-                        <span class="text-[10px] font-bold text-center leading-tight">PlayStation 5<br>(Física)</span>
+                        <span class="text-[10px] font-bold text-center leading-tight"><span id="dyn-p2-name">PlayStation 5</span><br><span id="dyn-p2-desc" class="text-slate-400 font-medium">(Física)</span></span>
                     </div>
                     <div class="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-sm border border-slate-100">
                         <i class="ph-duotone ph-currency-dollar text-4xl text-mydins-green mb-2"></i>
-                        <span class="text-[10px] font-bold text-center leading-tight">Efectivo<br>($1.000 USD)</span>
+                        <span class="text-[10px] font-bold text-center leading-tight"><span id="dyn-p3-name">Efectivo</span><br><span id="dyn-p3-desc" class="text-slate-400 font-medium">($1.000 USD)</span></span>
                     </div>
                 </div>
             </div>
 
-            <!-- PORCENTAJE EDITABLE DESDE EL PANEL ADMIN -->
             <div class="w-full bg-white border border-mydins-blue/10 rounded-xl p-5 mb-4 shadow-md">
                 <div class="flex justify-between items-end mb-2">
                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Meta Promocional</span>
@@ -125,8 +120,6 @@
         </div>
 
         <div class="px-6 py-10 space-y-4 shadow-inner bg-slate-50/50" id="packs-container">
-            <h2 class="text-2xl font-bold mb-2 text-mydins-blue text-center">Elegí tu Pack Educativo</h2>
-            <p class="text-center text-sm text-slate-500 mb-6">Comprá la Guía Práctica de IA y recibí códigos de sorteo de regalo.</p>
             <!-- Renderizado dinámico desde base de datos -->
         </div>
         
@@ -162,18 +155,27 @@
                 <!-- Se llena con JS -->
             </div>
 
-            <!-- Datos Bancarios Oficiales -->
+            <!-- Datos Bancarios Dinámicos -->
             <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 mb-8">
                 <h3 class="font-bold text-mydins-blue mb-4 flex items-center gap-2">
                     <i class="ph-fill ph-bank text-xl"></i> Datos para transferir
                 </h3>
                 <div class="space-y-3">
                     <div class="flex justify-between items-center bg-white p-3 rounded-lg border border-blue-50">
-                        <div>
+                        <div class="overflow-hidden">
                             <p class="text-[10px] text-slate-400 uppercase font-bold">Alias</p>
-                            <p id="dyn-alias" class="font-mono font-bold text-mydins-blue tracking-wider">MYDINS.ESTUDIO</p>
+                            <p id="dyn-alias" class="font-mono font-bold text-mydins-blue tracking-wider truncate">MYDINS.ESTUDIO</p>
                         </div>
-                        <button onclick="navigator.clipboard.writeText(document.getElementById('dyn-alias').innerText); alert('Alias copiado!')" class="text-blue-500 bg-blue-50 p-2 rounded hover:bg-blue-100 transition">
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('dyn-alias').innerText); alert('Alias copiado!')" class="text-blue-500 bg-blue-50 p-2 rounded hover:bg-blue-100 transition shrink-0 ml-2">
+                            <i class="ph-bold ph-copy"></i>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center bg-white p-3 rounded-lg border border-blue-50">
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">CBU / CVU</p>
+                            <p id="dyn-cbu" class="font-mono font-bold text-mydins-blue tracking-wider truncate">00000031000123456789</p>
+                        </div>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('dyn-cbu').innerText); alert('CBU copiado!')" class="text-blue-500 bg-blue-50 p-2 rounded hover:bg-blue-100 transition shrink-0 ml-2">
                             <i class="ph-bold ph-copy"></i>
                         </button>
                     </div>
@@ -196,11 +198,14 @@
                 <!-- SELECTOR DE ASESORES PARA WHATSAPP -->
                 <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
                     <label class="block text-xs font-bold text-mydins-green mb-2 ml-1 uppercase tracking-wider"><i class="ph-bold ph-whatsapp-logo"></i> Enviar comprobante a:</label>
-                    <select id="input-asesor" required class="w-full bg-white border-2 border-slate-200 rounded-lg p-3 text-mydins-blue font-bold focus:outline-none focus:border-mydins-green transition appearance-none">
-                        <option value="mydins">Administración Central MYDINS</option>
-                        <option value="maxy">Asesor Maxy</option>
-                        <option value="day">Asesora Day</option>
-                    </select>
+                    <div class="relative">
+                        <select id="input-asesor" required class="w-full bg-white border-2 border-green-200 rounded-lg p-3 text-mydins-blue font-bold focus:outline-none focus:border-mydins-green transition appearance-none">
+                            <option value="mydins">Administración Central MYDINS</option>
+                            <option value="maxy">Asesor Maxy</option>
+                            <option value="day">Asesora Day</option>
+                        </select>
+                        <i class="ph-bold ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-mydins-green pointer-events-none"></i>
+                    </div>
                 </div>
                 
                 <p class="text-[11px] text-slate-400 px-1 mt-2 leading-relaxed text-center">
@@ -255,10 +260,18 @@
             
             <!-- TABS DE VENTAS -->
             <div id="admin-tab-ventas" class="block">
+                
+                <!-- Botón de Exportar Respaldo -->
+                <div class="mb-6 flex justify-end">
+                    <button onclick="window.app && window.app.exportToCSV()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded flex items-center gap-2 text-sm shadow-lg shadow-blue-900/50 transition">
+                        <i class="ph-bold ph-download-simple"></i> Descargar Respaldo (Excel)
+                    </button>
+                </div>
+
                 <!-- Formulario de Registro Manual Directo -->
                 <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/80 mb-6 shadow-lg">
                     <h3 class="font-bold text-white mb-2 text-sm flex items-center gap-2"><i class="ph-bold ph-user-plus text-mydins-green text-lg"></i> Cargar Pago y Registrar Códigos</h3>
-                    <p class="text-xs text-slate-400 mb-4">Utilizá esta sección cuando verifiques la transferencia en tu cuenta bancaria para aprobar el pedido y generarle los códigos al alumno.</p>
+                    <p class="text-xs text-slate-400 mb-4">Utilizá esta sección cuando verifiques la transferencia en WhatsApp para aprobar el pedido y generarle los códigos al alumno.</p>
                     <form id="admin-manual-form" onsubmit="window.app && window.app.adminManualEntry(event)" class="space-y-3">
                         <div class="grid grid-cols-2 gap-2">
                             <input type="text" id="admin-name" required placeholder="Nombre Completo" class="w-full bg-slate-900 border border-slate-700 rounded p-3 text-sm text-white focus:outline-none focus:border-mydins-green">
@@ -278,7 +291,7 @@
                         <p id="admin-total-money" class="text-2xl font-bold text-emerald-400">$0</p>
                     </div>
                     <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                        <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Códigos Totales Generados</p>
+                        <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Códigos Generados</p>
                         <p id="admin-total-codes" class="text-2xl font-bold text-blue-400">0</p>
                     </div>
                 </div>
@@ -290,34 +303,63 @@
                 </h3>
                 <div id="admin-pending-list" class="space-y-3 mb-8"></div>
 
-                <h3 class="font-bold text-white mb-4 border-b border-slate-800 pb-2">Base de Datos de Códigos Activos</h3>
+                <h3 class="font-bold text-white mb-4 border-b border-slate-800 pb-2">Últimos Registros (BD Notarial)</h3>
                 <div id="admin-approved-list" class="space-y-3 opacity-90"></div>
             </div>
 
-            <!-- TABS DE EDITAR WEB (CMS) -->
+            <!-- TABS DE EDITAR WEB (CMS) AMPLIADO -->
             <div id="admin-tab-web" class="hidden">
                 <div class="bg-slate-800 p-5 rounded-xl border border-blue-500/30 mb-6 shadow-lg">
-                    <h3 class="font-bold text-white mb-1"><i class="ph-fill ph-pencil-simple text-blue-400"></i> Gestor de Contenido (CMS)</h3>
-                    <p class="text-xs text-slate-400 mb-6">Modificá los textos de la página de inicio, controla la barra de progreso de forma manual y cambia los precios o cantidad de códigos de regalo.</p>
+                    <h3 class="font-bold text-white mb-1"><i class="ph-fill ph-pencil-simple text-blue-400"></i> Editor del Sistema</h3>
+                    <p class="text-xs text-slate-400 mb-6">Todos los cambios que guardes acá impactarán en la página web pública instantáneamente.</p>
                     
-                    <form onsubmit="window.app && window.app.saveWebConfig(event)" class="space-y-5">
+                    <form onsubmit="window.app && window.app.saveWebConfig(event)" class="space-y-6">
                         
-                        <!-- Progreso Meta -->
-                        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg">
-                            <label class="block text-[10px] uppercase font-bold text-mydins-green tracking-wider mb-1">Porcentaje Visual de la Barra (%)</label>
-                            <input type="number" id="cms-progress" required min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white focus:outline-none focus:border-mydins-green" placeholder="Ej: 74">
-                        </div>
-
-                        <!-- Textos Hero -->
+                        <!-- SECCIÓN: Textos Principales y Progreso -->
                         <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg space-y-3">
-                            <label class="block text-[10px] uppercase font-bold text-blue-400 tracking-wider mb-1">Textos Cabecera (Hero)</label>
+                            <h4 class="text-[11px] uppercase font-bold text-blue-400 tracking-wider mb-2 border-b border-slate-800 pb-1"><i class="ph-fill ph-text-aa"></i> Textos Principales y Barra</h4>
+                            <input type="number" id="cms-progress" required min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white focus:outline-none focus:border-blue-400" placeholder="Progreso Barra % (Ej: 74)">
                             <input type="text" id="cms-title" required class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white focus:outline-none focus:border-blue-400" placeholder="Título Principal">
                             <textarea id="cms-subtitle" required class="w-full bg-slate-800 border border-slate-600 rounded p-2.5 text-sm text-white h-20 focus:outline-none focus:border-blue-400" placeholder="Subtítulo Principal"></textarea>
                         </div>
 
-                        <!-- Configuración de Precios y Packs -->
+                        <!-- SECCIÓN: Premios en Juego -->
                         <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg space-y-3">
-                            <label class="block text-[10px] uppercase font-bold text-orange-400 tracking-wider mb-1">Estructura de los Packs y Regalos</label>
+                            <h4 class="text-[11px] uppercase font-bold text-purple-400 tracking-wider mb-2 border-b border-slate-800 pb-1"><i class="ph-fill ph-gift"></i> Premios en Juego</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="cms-prize1-name" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Premio 1 (Ej: iPhone)">
+                                <input type="text" id="cms-prize1-desc" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Detalle 1 (Ej: Sellado)">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="cms-prize2-name" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Premio 2 (Ej: PlayStation 5)">
+                                <input type="text" id="cms-prize2-desc" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Detalle 2 (Ej: Física)">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="cms-prize3-name" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Premio 3 (Ej: Efectivo)">
+                                <input type="text" id="cms-prize3-desc" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white" placeholder="Detalle 3 (Ej: $1.000 USD)">
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN: Datos de Cobro -->
+                        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg space-y-3">
+                            <h4 class="text-[11px] uppercase font-bold text-emerald-400 tracking-wider mb-2 border-b border-slate-800 pb-1"><i class="ph-fill ph-bank"></i> Datos Bancarios y WhatsApp</h4>
+                            <div class="space-y-2">
+                                <input type="text" id="cms-alias" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white font-mono" placeholder="Alias Bancario">
+                                <input type="text" id="cms-cbu" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white font-mono" placeholder="CBU / CVU">
+                            </div>
+                            <div class="pt-2">
+                                <p class="text-[10px] text-slate-400 mb-1">Números de WhatsApp (Ej: 549387...)</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2"><span class="w-20 text-xs text-slate-400">Administración</span><input type="number" id="cms-wp-mydins" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white font-mono" placeholder="WP Mydins"></div>
+                                    <div class="flex items-center gap-2"><span class="w-20 text-xs text-slate-400">Maxy</span><input type="number" id="cms-wp-maxy" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white font-mono" placeholder="WP Maxy"></div>
+                                    <div class="flex items-center gap-2"><span class="w-20 text-xs text-slate-400">Day</span><input type="number" id="cms-wp-day" required class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white font-mono" placeholder="WP Day"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN: Packs -->
+                        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg space-y-3">
+                            <h4 class="text-[11px] uppercase font-bold text-orange-400 tracking-wider mb-2 border-b border-slate-800 pb-1"><i class="ph-fill ph-package"></i> Configuración de Packs</h4>
                             
                             <div class="flex gap-2 items-center">
                                 <span class="w-20 text-xs text-slate-400">Pack 1:</span>
@@ -339,8 +381,8 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 transition">
-                            <i class="ph-bold ph-floppy-disk text-lg"></i> Guardar Cambios en Vivo
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg shadow-lg flex items-center justify-center gap-2 transition">
+                            <i class="ph-bold ph-floppy-disk text-lg"></i> Guardar Configuración Completa
                         </button>
                     </form>
                 </div>
@@ -367,8 +409,8 @@
             appId: "1:581453816819:web:634a38242991d0d9d1a886"
         };
         
-        // Identificador de la base de datos
         const appId = 'sorteos-mydins';
+        const LINK_PDF_IA = "https://docs.google.com/document/d/1XTuEj_ejemplo_reemplazar_por_tu_link/edit"; 
 
         let firebaseApp, auth, db;
         try {
@@ -377,18 +419,7 @@
             db = getFirestore(firebaseApp);
         } catch(e) {
             console.error("No se pudo conectar a Firebase:", e);
-            alert("Atención: Hubo un problema conectando a la base de datos.");
         }
-
-        // --- LOS 3 NÚMEROS DE WHATSAPP ---
-        // (Configurados con el 549 para Argentina)
-        const WHATSAPP_NUMBERS = {
-            "mydins": "5493875984002",
-            "maxy":   "5493873602174",
-            "day":    "5493873641848"
-        };
-
-        const LINK_PDF_IA = "https://docs.google.com/document/d/1XTuEj_ejemplo_reemplazar_por_tu_link/edit"; 
 
         window.app = {
             state: {
@@ -400,6 +431,11 @@
                     heroTitle: "Aprendé sobre Inteligencia Artificial y <span class='text-mydins-green'>elegí tu premio.</span>",
                     heroSubtitle: "Adquirí nuestra Guía de IA para Estudiantes y recibí códigos de participación de regalo para el gran sorteo.",
                     progressPercent: 10,
+                    prize1Name: "iPhone 16 Pro", prize1Desc: "(Sellado)",
+                    prize2Name: "PlayStation 5", prize2Desc: "(Física)",
+                    prize3Name: "Efectivo", prize3Desc: "($1.000 USD)",
+                    alias: "MYDINS.ESTUDIO", cbu: "00000031000123456789",
+                    wpMydins: "5493875984002", wpMaxy: "5493873602174", wpDay: "5493873641848",
                     packs: [
                         { id: 'pack_1', qty: 1, chances: 1, price: 4500, title: 'Básico', popular: false },
                         { id: 'pack_2', qty: 3, chances: 5, price: 12500, title: 'Familiar', popular: true, tag: 'Recomendado' },
@@ -413,18 +449,11 @@
 
             async init() {
                 this.setupSecretTrigger();
-                
-                if(!auth) {
-                    this.applyConfigToWeb();
-                    return;
-                }
+                if(!auth) { this.applyConfigToWeb(); return; }
 
                 this.showLoader(true);
-                
                 try {
-                    // Inicializar la autenticación anónima para leer/escribir base de datos
                     await signInAnonymously(auth);
-
                     onAuthStateChanged(auth, (user) => {
                         if (user) {
                             this.state.user = user;
@@ -435,50 +464,37 @@
                         }
                     });
                 } catch (error) {
-                    console.error("Fallo de Autenticación:", error);
+                    console.error("Fallo Auth:", error);
                     this.applyConfigToWeb();
                     this.showLoader(false);
                 }
             },
 
-            // --- LÓGICA DEL TRIPLE CLIC PARA EL ADMIN ---
+            // --- TRIPLE CLIC PARA EL ADMIN ---
             setupSecretTrigger() {
                 const trigger = document.getElementById('secret-trigger');
-
                 trigger.addEventListener('click', (e) => {
                     e.preventDefault(); 
                     const now = Date.now();
-                    
-                    if (now - this.lastClickTime > 800) {
-                        this.clickCount = 0;
-                    }
-                    
+                    if (now - this.lastClickTime > 800) this.clickCount = 0;
                     this.lastClickTime = now;
                     this.clickCount++;
-                    
                     if (this.clickCount === 3) {
                         this.clickCount = 0; 
                         this.requireAdmin();
                     } else if (this.clickCount === 1) {
-                        setTimeout(() => {
-                            if (this.clickCount === 1) {
-                                this.navigate('landing');
-                                this.clickCount = 0;
-                            }
-                        }, 300);
+                        setTimeout(() => { if (this.clickCount === 1) { this.navigate('landing'); this.clickCount = 0; } }, 300);
                     }
                 });
             },
 
             requireAdmin() {
                 if(navigator.vibrate) navigator.vibrate([50, 50, 50]); 
-                const pass = prompt("Acceso Especial MYDINS. Introduzca la clave de administrador:");
+                const pass = prompt("Acceso MYDINS. Introduzca clave:");
                 if (pass === "mydins2026") {
                     this.state.isAdmin = true;
                     this.navigate('admin');
-                } else if (pass !== null) {
-                    alert("Clave incorrecta.");
-                }
+                } else if (pass !== null) alert("Clave incorrecta.");
             },
 
             logoutAdmin() {
@@ -489,11 +505,9 @@
             // ---------------- NAVEGACIÓN ----------------
             navigate(viewId) {
                 if (viewId === 'landing' && this.state.isAdmin && document.getElementById('view-admin').classList.contains('view-active')) return;
-                
                 document.querySelectorAll('.view-section').forEach(el => el.classList.remove('view-active'));
                 document.getElementById(`view-${viewId}`).classList.add('view-active');
                 window.scrollTo(0, 0);
-                
                 if (viewId === 'admin') this.renderAdmin();
             },
 
@@ -516,34 +530,44 @@
                 }
             },
 
-            showLoader(show) {
-                document.getElementById('global-loader').style.display = show ? 'flex' : 'none';
-            },
+            showLoader(show) { document.getElementById('global-loader').style.display = show ? 'flex' : 'none'; },
 
-            // ---------------- GESTIÓN CMS (BASE DE DATOS CONFIG) ----------------
+            // ---------------- GESTIÓN CMS (DB) ----------------
             listenToConfig() {
                 if (!this.state.user || !db) return;
                 const configRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'main_config');
-                
                 onSnapshot(configRef, (docSnap) => {
                     if (docSnap.exists()) {
-                        this.state.config = docSnap.data();
+                        // Mezcla la configuración guardada con los valores por defecto (por si faltan campos nuevos)
+                        this.state.config = { ...this.state.config, ...docSnap.data() };
                     }
                     this.applyConfigToWeb();
                 }, (error) => {
-                    console.error("Error al recuperar CMS:", error);
                     this.applyConfigToWeb();
                 });
             },
 
             applyConfigToWeb() {
                 const c = this.state.config;
-                
+                // Hero
                 document.getElementById('dyn-hero-title').innerHTML = c.heroTitle;
                 document.getElementById('dyn-hero-subtitle').innerHTML = c.heroSubtitle;
-                
                 document.getElementById('public-progress-text').innerText = `${c.progressPercent}%`;
                 document.getElementById('public-progress-bar').style.width = `${c.progressPercent}%`;
+                
+                // Premios
+                if(document.getElementById('dyn-p1-name')) {
+                    document.getElementById('dyn-p1-name').innerText = c.prize1Name;
+                    document.getElementById('dyn-p1-desc').innerText = c.prize1Desc;
+                    document.getElementById('dyn-p2-name').innerText = c.prize2Name;
+                    document.getElementById('dyn-p2-desc').innerText = c.prize2Desc;
+                    document.getElementById('dyn-p3-name').innerText = c.prize3Name;
+                    document.getElementById('dyn-p3-desc').innerText = c.prize3Desc;
+                }
+
+                // Datos Bancarios
+                if(document.getElementById('dyn-alias')) document.getElementById('dyn-alias').innerText = c.alias;
+                if(document.getElementById('dyn-cbu')) document.getElementById('dyn-cbu').innerText = c.cbu;
 
                 this.renderPacks();
                 this.showLoader(false);
@@ -555,14 +579,25 @@
                 document.getElementById('cms-title').value = c.heroTitle.replace(/<[^>]*>?/gm, ''); 
                 document.getElementById('cms-subtitle').value = c.heroSubtitle;
                 
+                document.getElementById('cms-prize1-name').value = c.prize1Name || '';
+                document.getElementById('cms-prize1-desc').value = c.prize1Desc || '';
+                document.getElementById('cms-prize2-name').value = c.prize2Name || '';
+                document.getElementById('cms-prize2-desc').value = c.prize2Desc || '';
+                document.getElementById('cms-prize3-name').value = c.prize3Name || '';
+                document.getElementById('cms-prize3-desc').value = c.prize3Desc || '';
+
+                document.getElementById('cms-alias').value = c.alias || '';
+                document.getElementById('cms-cbu').value = c.cbu || '';
+                document.getElementById('cms-wp-mydins').value = c.wpMydins || '';
+                document.getElementById('cms-wp-maxy').value = c.wpMaxy || '';
+                document.getElementById('cms-wp-day').value = c.wpDay || '';
+
                 document.getElementById('cms-p1-name').value = c.packs[0].title;
                 document.getElementById('cms-p1-price').value = c.packs[0].price;
                 document.getElementById('cms-p1-chances').value = c.packs[0].chances;
-                
                 document.getElementById('cms-p2-name').value = c.packs[1].title;
                 document.getElementById('cms-p2-price').value = c.packs[1].price;
                 document.getElementById('cms-p2-chances').value = c.packs[1].chances;
-                
                 document.getElementById('cms-p3-name').value = c.packs[2].title;
                 document.getElementById('cms-p3-price').value = c.packs[2].price;
                 document.getElementById('cms-p3-chances').value = c.packs[2].chances;
@@ -580,6 +615,17 @@
                     heroTitle: styledTitle,
                     heroSubtitle: document.getElementById('cms-subtitle').value,
                     progressPercent: parseInt(document.getElementById('cms-progress').value),
+                    prize1Name: document.getElementById('cms-prize1-name').value,
+                    prize1Desc: document.getElementById('cms-prize1-desc').value,
+                    prize2Name: document.getElementById('cms-prize2-name').value,
+                    prize2Desc: document.getElementById('cms-prize2-desc').value,
+                    prize3Name: document.getElementById('cms-prize3-name').value,
+                    prize3Desc: document.getElementById('cms-prize3-desc').value,
+                    alias: document.getElementById('cms-alias').value,
+                    cbu: document.getElementById('cms-cbu').value,
+                    wpMydins: document.getElementById('cms-wp-mydins').value,
+                    wpMaxy: document.getElementById('cms-wp-maxy').value,
+                    wpDay: document.getElementById('cms-wp-day').value,
                     packs: [
                         { ...this.state.config.packs[0], title: document.getElementById('cms-p1-name').value, price: parseInt(document.getElementById('cms-p1-price').value), chances: parseInt(document.getElementById('cms-p1-chances').value) },
                         { ...this.state.config.packs[1], title: document.getElementById('cms-p2-name').value, price: parseInt(document.getElementById('cms-p2-price').value), chances: parseInt(document.getElementById('cms-p2-chances').value) },
@@ -592,8 +638,7 @@
                     await setDoc(configRef, newConfig);
                     alert("¡Página web actualizada correctamente!");
                 } catch(e) {
-                    console.error("Error al actualizar la base de datos:", e);
-                    alert("Hubo un error al guardar los cambios en el servidor.");
+                    alert("Hubo un error al guardar los cambios.");
                 }
                 this.showLoader(false);
             },
@@ -602,23 +647,17 @@
             listenToOrders() {
                 if (!this.state.user || !db) return;
                 const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
-                
                 onSnapshot(ordersRef, (snapshot) => {
                     const allOrders = [];
                     snapshot.forEach(doc => allOrders.push({ id: doc.id, ...doc.data() }));
                     this.state.orders = allOrders;
-                    
-                    if(document.getElementById('view-admin').classList.contains('view-active')) {
-                        this.renderAdmin();
-                    }
-                }, (error) => {
-                    console.error("Error en flujo de transacciones:", error);
+                    if(document.getElementById('view-admin').classList.contains('view-active')) this.renderAdmin();
                 });
             },
 
             renderPacks() {
                 const container = document.getElementById('packs-container');
-                container.innerHTML = '';
+                container.innerHTML = '<h2 class="text-2xl font-bold mb-2 text-mydins-blue text-center">Elegí tu Pack Educativo</h2><p class="text-center text-sm text-slate-500 mb-6">Comprá la Guía Práctica de IA y recibí códigos de regalo.</p>';
                 this.state.config.packs.forEach(pack => {
                     const isPopular = pack.popular;
                     const bgClass = isPopular ? 'bg-mydins-blue text-white shadow-xl transform scale-105 my-6 border border-blue-800' : 'bg-white text-mydins-blue border border-slate-200';
@@ -655,44 +694,33 @@
                 event.preventDefault();
                 const inputName = document.getElementById('input-name').value.trim();
                 const inputDni = document.getElementById('input-dni').value.trim();
-                const selectedAsesor = document.getElementById('input-asesor').value; // Toma el valor del select
+                const selectedAsesor = document.getElementById('input-asesor').value; 
                 const p = this.state.selectedPack;
 
                 if (this.state.user && db) {
                     this.showLoader(true);
-                    
-                    const newOrder = {
-                        name: inputName,
-                        dni: inputDni,
-                        packId: p.id,
-                        amount: p.price,
-                        chances: p.chances,
-                        status: 'pending', 
-                        tokens: [],
-                        date: new Date().toISOString()
-                    };
-
                     try {
                         const ordersRef = collection(db, 'artifacts', appId, 'public', 'data', 'orders');
-                        await addDoc(ordersRef, newOrder);
+                        await addDoc(ordersRef, {
+                            name: inputName, dni: inputDni, packId: p.id, amount: p.price,
+                            chances: p.chances, status: 'pending', tokens: [], date: new Date().toISOString()
+                        });
                     } catch (e) {
                         console.error("Error al registrar transacción:", e);
                     }
                     this.showLoader(false);
                 }
 
-                // Obtener el número de celular del asesor seleccionado
-                const celNumber = WHATSAPP_NUMBERS[selectedAsesor];
+                // Determinamos el número según la configuración del CMS
+                let celNumber = this.state.config.wpMydins;
+                if(selectedAsesor === 'maxy') celNumber = this.state.config.wpMaxy;
+                if(selectedAsesor === 'day') celNumber = this.state.config.wpDay;
 
-                // Limpieza y navegación
                 this.navigate('dashboard');
                 document.getElementById('search-dni').value = inputDni;
                 this.searchByDni();
 
-                // Formateo del mensaje oficial a WhatsApp
-                const text = `Hola! 🙌\nAcabo de realizar la transferencia por mi Pack Mydins.\n\n*Nombre:* ${inputName}\n*DNI:* ${inputDni}\n*Pack:* ${p.title} ($${p.price.toLocaleString()})\n\nAdjunto mi comprobante bancario para que puedan validar los códigos de sorteo:`;
-                
-                // Abre el WhatsApp correcto
+                const text = `Hola! 🙌\nAcabo de realizar la transferencia por mi Pack Mydins.\n\n*Nombre:* ${inputName}\n*DNI:* ${inputDni}\n*Pack:* ${p.title} ($${p.price.toLocaleString()})\n\nAdjunto mi comprobante bancario para que validen mis códigos de sorteo:`;
                 window.open(`https://wa.me/${celNumber}?text=${encodeURIComponent(text)}`, '_blank');
             },
 
@@ -718,7 +746,7 @@
                 userOrders.forEach(order => {
                     if (order.status === 'pending') {
                         resultsDiv.innerHTML += `
-                            <div class="bg-orange-50 border border-orange-200 rounded-xl p-5 shadow-sm">
+                            <div class="bg-orange-50 border border-orange-200 rounded-xl p-5 shadow-sm mb-4">
                                 <div class="flex items-center gap-2 text-orange-600 font-bold mb-2">
                                     <i class="ph-fill ph-clock text-xl"></i> Registro Pendiente
                                 </div>
@@ -728,7 +756,7 @@
                     } else if (order.status === 'approved') {
                         let tHtml = order.tokens.map(t => `<div class="bg-mydins-blue text-white font-mono text-center tracking-widest text-[14px] font-bold p-2.5 rounded shadow-inner border border-blue-800">${t}</div>`).join('');
                         resultsDiv.innerHTML += `
-                            <div class="bg-green-50 border border-green-200 rounded-xl p-5 shadow-sm">
+                            <div class="bg-green-50 border border-green-200 rounded-xl p-5 shadow-sm mb-4">
                                 <div class="flex items-center gap-2 text-mydins-green font-bold mb-4">
                                     <i class="ph-fill ph-check-circle text-xl"></i> ¡Inscripción Aprobada!
                                 </div>
@@ -745,7 +773,7 @@
                 });
             },
 
-            // ---------------- BACK-END SECCIÓN: ADMIN CONTROL ----------------
+            // ---------------- ADMIN CONTROL ----------------
             fillAdminPackSelect() {
                 const select = document.getElementById('admin-pack');
                 select.innerHTML = '<option value="">Elegí un pack...</option>';
@@ -772,17 +800,12 @@
                     await addDoc(ordersRef, {
                         name: document.getElementById('admin-name').value, 
                         dni: document.getElementById('admin-dni').value,
-                        packId: pack.id, 
-                        amount: pack.price, 
-                        chances: pack.chances, 
-                        tokens: tokens, 
-                        status: 'approved', 
-                        date: new Date().toISOString()
+                        packId: pack.id, amount: pack.price, chances: pack.chances, 
+                        tokens: tokens, status: 'approved', date: new Date().toISOString()
                     });
                     document.getElementById('admin-manual-form').reset();
                     alert("Acreditación exitosa. Códigos de sorteo generados.");
                 } catch (err) {
-                    console.error("Fallo al insertar en base de datos:", err);
                     alert("Error en el guardado de datos.");
                 }
                 this.showLoader(false);
@@ -802,13 +825,13 @@
                 pList.innerHTML = pendingOrders.length ? '' : '<p class="text-sm text-slate-500 italic p-2 bg-slate-800 rounded text-center">No hay solicitudes web pendientes.</p>';
                 pendingOrders.forEach(o => {
                     pList.innerHTML += `
-                        <div class="bg-slate-800 border-l-4 border-orange-500 p-4 rounded-r-lg flex justify-between items-center">
+                        <div class="bg-slate-800 border-l-4 border-orange-500 p-4 rounded-r-lg flex justify-between items-center mb-3">
                             <div>
                                 <p class="font-bold text-white text-sm">${o.name}</p>
                                 <p class="text-xs text-slate-400">DNI: ${o.dni}</p>
                                 <p class="text-emerald-400 font-bold mt-1">$${o.amount.toLocaleString()} <span class="text-[10px] text-slate-500 font-normal">(${o.chances} cód)</span></p>
                             </div>
-                            <button onclick="window.app.approveOrder('${o.id}', ${o.chances})" class="bg-emerald-500 hover:bg-emerald-600 transition text-white font-bold py-2 px-3 rounded text-xs">Validar</button>
+                            <button onclick="window.app.approveOrder('${o.id}', ${o.chances})" class="bg-emerald-500 hover:bg-emerald-600 transition text-white font-bold py-2 px-3 rounded text-xs">Validar Pago</button>
                         </div>
                     `;
                 });
@@ -817,10 +840,9 @@
                 aList.innerHTML = '';
                 
                 const sortedApproved = [...approvedOrders].sort((a,b) => new Date(b.date) - new Date(a.date));
-                
                 sortedApproved.slice(0, 15).forEach(o => { 
                     aList.innerHTML += `
-                        <div class="bg-slate-800/50 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs">
+                        <div class="bg-slate-800/50 border border-slate-700 p-3 rounded-lg flex justify-between items-center text-xs mb-2">
                             <div>
                                 <p class="font-bold text-slate-300">${o.name}</p>
                                 <p class="text-slate-500">DNI: ${o.dni}</p>
@@ -836,9 +858,7 @@
 
             async approveOrder(orderId, chances) {
                 if(!confirm("¿Confirmás que se acreditó la transferencia en tu cuenta bancaria?")) return;
-                if (!this.state.user || !db) return;
                 this.showLoader(true);
-                
                 try {
                     const tokens = [];
                     for(let i=0; i<chances; i++) {
@@ -849,10 +869,35 @@
                     const orderRef = doc(db, 'artifacts', appId, 'public', 'data', 'orders', orderId);
                     await updateDoc(orderRef, { status: 'approved', tokens: tokens });
                 } catch(e) {
-                    console.error("Fallo al actualizar estado:", e);
                     alert("Fallo interno en la actualización.");
                 }
                 this.showLoader(false);
+            },
+            
+            // Función de Respaldo Excel (CSV)
+            exportToCSV() {
+                const orders = this.state.orders.filter(o => o.status === 'approved');
+                if(orders.length === 0) return alert("No hay pedidos aprobados para exportar.");
+                
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "Fecha,Nombre,DNI,Pack,MontoPagado,CantCodigos,CodigosAsignados\n";
+                
+                orders.forEach(o => {
+                    const dateObj = new Date(o.date);
+                    const dateStr = `${dateObj.getDate()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+                    const codesStr = o.tokens ? o.tokens.join(" - ") : "";
+                    
+                    const row = `"${dateStr}","${o.name}",${o.dni},"${o.packId}",${o.amount},${o.chances},"${codesStr}"`;
+                    csvContent += row + "\n";
+                });
+                
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `Respaldo_Mydins_${new Date().getTime()}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             }
         };
 
